@@ -1,8 +1,12 @@
-export interface ButtonProps {
-  placement: string;
+export interface IButtonProps {
   shape: string;
   size: string;
   text: string;
   icon: string;
-  isActive: boolean;
+  vertical?: boolean;
+  active?: boolean;
+}
+
+export interface IIcon {
+  name: string;
 }

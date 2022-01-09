@@ -5,17 +5,29 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    letter-spacing: -0.5px;
+  }
+
+  html {
+    background-color: white;
+    overflow-x: hidden;
   }
 
   #root {
-    display: flex;
-    width: 450px;
-    height: 100vh;
-    margin: auto;
+    width: min(450px, 100vw);
+    margin: 27px auto;
   }
 
-  font-family: 'Noto Sans KR';
-  font-weight: 400;
+  img, object {
+    object-fit: cover;
+    width: 100%;
+  }
+
+  svg {
+    shape-rendering: geometricPrecision;
+  }
+
 `;
 
 export default GlobalStyle;

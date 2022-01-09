@@ -6,6 +6,7 @@ const Colors = {
   Black: "#000000",
   White: "#FFFFFF",
 
+  Gray4: "#444444",
   Gray5: "#555555",
   Gray6: "#666666",
   Gray7: "#777777",
@@ -32,12 +33,20 @@ const TextStyles = {
     font-weight: 700;
   `,
   Paragraph1: css`
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 500;
   `,
   Paragraph2: css`
-    font-size: 11px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 500;
+  `,
+  Paragraph3: css`
+    font-size: 12px;
+    font-weight: 500;
+  `,
+  Paragraph4: css`
+    font-size: 10px;
+    font-weight: 500;
   `,
 };
 
