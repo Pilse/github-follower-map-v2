@@ -2,14 +2,25 @@ import React from "react";
 
 import Icon from "../Icon/Icon";
 
-import { InputLayout, InputText } from "./Input.style";
+import { IInput } from "../../interfaces";
+import { InputLayout, InputText, IconBox, InputBox } from "./Input.style";
 
-function Input() {
+function Input({ onChangeHandler, onFocusHandler, onBlurHandler }: IInput) {
   return (
     <InputLayout>
-      <Icon name="default_avatar" />
+      <IconBox>
+        <Icon name="default_avatar" />
+      </IconBox>
 
-      <InputText type="text" placeholder="검색할 유저를 입력해주세요" />
+      <InputBox>
+        <InputText
+          type="text"
+          placeholder="검색할 유저를 입력해주세요"
+          onChange={onChangeHandler}
+          onFocus={onFocusHandler}
+          onBlur={onBlurHandler}
+        />
+      </InputBox>
     </InputLayout>
   );
 }
