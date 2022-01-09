@@ -2,6 +2,7 @@ import React from "react";
 
 import Icon from "../Layout/Icon/Icon";
 
+import { IHeader } from "../interfaces";
 import {
   HeaderLayout,
   HeaderBox,
@@ -10,9 +11,9 @@ import {
   TextParagraph,
 } from "./Header.style";
 
-function Header() {
+function Header(show: IHeader) {
   return (
-    <HeaderLayout>
+    <HeaderLayout {...show}>
       <HeaderBox>
         <Icon name="network_left" />
       </HeaderBox>

@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 
-export interface IButtonProps {
+export interface IButton {
   shape: string;
   size: string;
   text: string;
@@ -17,4 +17,8 @@ export interface IInput {
   onChangeHandler(event: ChangeEvent<HTMLInputElement>): void;
   onFocusHandler(): void;
   onBlurHandler(): void;
+}
+
+export interface IHeader {
+  show?: boolean;
 }

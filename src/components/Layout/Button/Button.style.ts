@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 
-import { IButtonProps } from "../../interfaces";
+import { IButton } from "../../interfaces";
 
-export const ButtonLayout = styled.button<IButtonProps>`
+export const ButtonLayout = styled.button<IButton>`
   border: none;
   outline: none;
   display: flex;

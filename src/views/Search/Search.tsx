@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 import useInput from "../../hooks/useInput";
 
@@ -18,16 +19,18 @@ function Search() {
     onBlurHandler,
   }: IuseInput = useInput();
 
-  useEffect(() => {
-    //TODO: input 값 핸들링
-    console.log(input);
-  }, [input]);
+  const navigate = useNavigate();
+
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    navigate(`/result?user=${input}`);
+  };
 
   return (
     <SearchLayout>
       {!focus && <Header />}
 
-      <SearchForm>
+      <SearchForm onSubmit={onSubmitHandler}>
         {focus && (
           <IconBox>
             <Icon name="back" />

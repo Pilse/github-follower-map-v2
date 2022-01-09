@@ -1,10 +1,19 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const HeaderLayout = styled.div`
+import { IHeader } from "../interfaces";
+
+export const HeaderLayout = styled.div<IHeader>`
   display: flex;
   gap: 30px;
   justify-content: center;
   align-items: center;
+  height: 65px;
+
+  ${({ show }) =>
+    show &&
+    css`
+      height: 0;
+    `}
 `;
 
 export const HeaderBox = styled.div`

@@ -2,10 +2,10 @@ import React from "react";
 
 import Icon from "../Icon/Icon";
 
-import { IButtonProps } from "../../interfaces";
+import { IButton } from "../../interfaces";
 import { ButtonLayout, ButtonParagraph } from "./Button.style";
 
-function Button(props: IButtonProps) {
+function Button(props: IButton) {
   return (
     <ButtonLayout {...props}>
       <Icon name={props.icon} />
