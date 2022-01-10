@@ -2,7 +2,7 @@ import React from "react";
 
 import Icon from "../Layout/Icon/Icon";
 
-import { IHeader } from "../interfaces";
+import { IHeader } from "../types";
 import {
   HeaderLayout,
   HeaderBox,

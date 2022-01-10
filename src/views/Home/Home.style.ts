@@ -9,7 +9,7 @@ export const HomeLayout = styled.div`
 `;
 
 export const HeroBox = styled.div`
-  width: 80%;
+  width: 85%;
 `;
 
 export const TextBox = styled.div`

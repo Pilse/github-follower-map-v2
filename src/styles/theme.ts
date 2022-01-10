@@ -17,6 +17,7 @@ const Colors = {
   GrayC: "#CCCCCC",
   GrayD: "#DDDDDD",
   GrayE: "#EEEEEE",
+  GrayF: "#F6F6F6",
 };
 
 const TextStyles = {

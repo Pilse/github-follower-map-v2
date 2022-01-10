@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { IuseInput } from "./interfaces";
+import { IuseInput } from "./types";
 
 function useInput(): IuseInput {
   const [input, setInput] = useState<string>("");

@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
 
-import { IHeader } from "../interfaces";
+import { IHeader } from "../types";
 
 export const HeaderLayout = styled.div<IHeader>`
   display: flex;
-  gap: 30px;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  width: 100%;
   height: 65px;
 
   ${({ show }) =>

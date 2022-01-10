@@ -1,25 +1,19 @@
-import { IFollowerResponse } from "./interfaces";
-
-async function API(
+async function API<T>(
   method: string,
   url: string,
   headers?: HeadersInit,
   body?: BodyInit
 ) {
-  try {
-    const config: RequestInit = {
-      method,
-      headers,
-      body,
-    };
+  const config: RequestInit = {
+    method,
+    headers,
+    body,
+  };
 
-    const res = await fetch(url, config);
-    const data: IFollowerResponse = await res.json();
+  const res = await fetch(url, config);
+  const data: T = await res.json();
 
-    return data;
-  } catch (err: any) {
-    console.log(err);
-  }
+  return data;
 }
 
 export default API;

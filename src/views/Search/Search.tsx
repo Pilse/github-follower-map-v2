@@ -8,7 +8,7 @@ import Input from "../../components/Layout/Input/Input";
 import Icon from "../../components/Layout/Icon/Icon";
 
 import { SearchLayout, SearchForm, IconBox } from "./Search.style";
-import { IuseInput } from "../../hooks/interfaces";
+import { IuseInput } from "../../hooks/types";
 
 function Search() {
   const {

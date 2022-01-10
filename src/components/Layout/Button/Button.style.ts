@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { IButton } from "../../interfaces";
+import { IButton } from "../../types";
 
 export const ButtonLayout = styled.button<IButton>`
   border: none;
@@ -24,6 +24,12 @@ export const ButtonLayout = styled.button<IButton>`
           border: 2px solid ${({ theme }) => theme.Colors.Primary};
         `
       : css``};
+`;
+
+export const IconBox = styled.div`
+  display: flex;
+  width: 25px;
+  height: 25px;
 `;
 
 export const ButtonParagraph = styled.div`

@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif;
+    color: black;
     letter-spacing: -0.5px;
   }
 

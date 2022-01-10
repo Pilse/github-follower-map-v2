@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IIcon } from "../../interfaces";
+import { IIcon } from "../../types";
 
 function Icon({ name }: IIcon) {
   return (
