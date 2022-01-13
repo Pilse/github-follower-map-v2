@@ -1,17 +1,19 @@
 import { IInput } from "../components/types";
+import { SimulationLinkDatum, SimulationNodeDatum } from "d3";
 
 export interface IuseInput extends IInput {
   input: string;
   focus: boolean;
 }
 
-export interface IuseFollowinNode {
+export interface IuseFollowingNode extends SimulationNodeDatum {
   name: string;
   avatar: string;
   value: number;
 }
 
-export interface IuseFollowinLink {
+export interface IuseFollowinLink
+  extends SimulationLinkDatum<IuseFollowingNode> {
   source: string;
   target: string;
 }

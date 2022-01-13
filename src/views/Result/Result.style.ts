@@ -51,6 +51,21 @@ export const ButtonBox = styled.div`
   width: min(133px, 40%);
 `;
 
+export const FollowingSvg = styled.svg`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  line {
+    stroke: ${({ theme }) => theme.Colors.Black + "26"};
+  }
+
+  image {
+    clip-path: circle(40%);
+    stroke: red;
+  }
+`;
+
 export const TextParagraph = styled.p`
   ${({ theme }) => theme.TextStyles.Paragraph1};
 `;

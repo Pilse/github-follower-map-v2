@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import useFollowing from "../../hooks/useFollowing";
+import D3Model from "../../d3/d3.index";
 
 import Header from "../../components/Header/Header";
 import Button from "../../components/Layout/Button/Button";
@@ -15,6 +16,7 @@ import {
   AvatarBox,
   OptionBox,
   ButtonBox,
+  FollowingSvg,
   TextParagraph,
   Line,
 } from "./Result.style";
@@ -27,52 +29,62 @@ function Result() {
 
   const [path, setPath] = useState<ResultState>("following");
 
-  // Todo: mapObject를 통해 network 모델 만들기
-  console.log(mapObject, loading);
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (!loading) {
+      const network = new D3Model.Network(svgRef.current!, mapObject);
+      network.forceNetwork();
+    }
+  }, [loading, mapObject]);
 
   return (
     <ResultLayout>
       <Header />
 
       {!loading && (
-        <InfoBox>
-          <UserBox>
-            <AvatarBox>
-              <img
-                src={mapObject.nodes[0].avatar}
-                alt={mapObject.nodes[0].name}
-              />
-            </AvatarBox>
+        <>
+          <InfoBox>
+            <UserBox>
+              <AvatarBox>
+                <img
+                  src={mapObject.nodes[0].avatar}
+                  alt={mapObject.nodes[0].name}
+                />
+              </AvatarBox>
 
-            <TextParagraph>{mapObject.nodes[0].name}</TextParagraph>
-          </UserBox>
+              <TextParagraph>{mapObject.nodes[0].name}</TextParagraph>
+            </UserBox>
 
-          <Line />
+            <Line />
 
-          <OptionBox>
-            <ButtonBox onClick={() => setPath(() => "following")}>
-              <Button
-                shape="angled"
-                size="sm"
-                text="팔로잉"
-                icon="follow"
-                vertical
-                active={path === "following"}
-              />
-            </ButtonBox>
+            <OptionBox>
+              <ButtonBox onClick={() => setPath(() => "following")}>
+                <Button
+                  shape="angled"
+                  size="sm"
+                  text="팔로잉"
+                  icon="follow"
+                  vertical
+                  active={path === "following"}
+                />
+              </ButtonBox>
 
-            <ButtonBox onClick={() => setPath(() => "grouping")}>
-              <Button
-                shape="angled"
-                size="sm"
-                text="내가 속한 그룹"
-                icon="group"
-                vertical
-                active={path === "grouping"}
-              />
-            </ButtonBox>
-          </OptionBox>
-        </InfoBox>
+              <ButtonBox onClick={() => setPath(() => "grouping")}>
+                <Button
+                  shape="angled"
+                  size="sm"
+                  text="내가 속한 그룹"
+                  icon="group"
+                  vertical
+                  active={path === "grouping"}
+                />
+              </ButtonBox>
+            </OptionBox>
+          </InfoBox>
+
+          <FollowingSvg ref={svgRef}></FollowingSvg>
+        </>
       )}
     </ResultLayout>
   );
