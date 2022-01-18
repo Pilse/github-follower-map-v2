@@ -1,7 +1,7 @@
 import API from "./API";
 import { GITHUB } from "./URLs";
 
-import { IFollowerResponse } from "./types";
+import { IFollowerResponse, IUserResponse } from "./types";
 
 const headers = {
   Accept: "application/vnd.github.v3+json",
@@ -10,9 +10,10 @@ const headers = {
 
 const Github = {
   fetchUser(user: string) {
-    return API<IFollowerResponse>(
+    return API<IUserResponse>(
       "GET",
-      `${GITHUB.BASE}${GITHUB.USERS}/${user}`
+      `${GITHUB.BASE}${GITHUB.USERS}/${user}`,
+      headers
     );
   },
   fetchFollowers(user: string) {

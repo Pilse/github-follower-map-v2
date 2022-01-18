@@ -7,6 +7,7 @@ export const ButtonLayout = styled.button<IButton>`
   outline: none;
   display: flex;
   width: 100%;
+  height: fit-content;
   flex-direction: ${({ vertical }) => (vertical ? "column" : "row")};
   align-items: center;
   gap: 8px;
@@ -33,6 +34,7 @@ export const IconBox = styled.div`
 `;
 
 export const ButtonParagraph = styled.div`
-  font-size: ${({ theme }) => theme.TextStyles.Paragraph2};
-  font-weight: 700;
+  ${({ theme }) => theme.TextStyles.Paragraph2};
+  color: ${({ theme }) => theme.Colors.Gray4};
+  word-break: keep-all;
 `;

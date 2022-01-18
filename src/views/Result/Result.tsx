@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import useFollowing from "../../hooks/useFollowing";
+import useUser from "../../hooks/useUser";
 import D3Model from "../../d3/d3.index";
 
 import Button from "../../components/Layout/Button/Button";
+import Card from "../../components/Card/Card";
 
 import { ResultState } from "../types";
 
@@ -15,6 +17,7 @@ import {
   AvatarBox,
   OptionBox,
   ButtonBox,
+  CardBox,
   FollowingSvg,
   TextParagraph,
   Line,
@@ -26,17 +29,20 @@ function Result() {
 
   const { mapObject, loading } = useFollowing(searchParams);
 
+  const { userData, setUser, resetState } = useUser();
+
   const [path, setPath] = useState<ResultState>("following");
-  const [user, setUser] = useState<string>("");
 
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (!loading) {
+    if (loading) {
+      setUser(() => "");
+    } else {
       const network = new D3Model.Network(svgRef.current!, mapObject);
       network.forceNetwork(setUser);
     }
-  }, [loading, mapObject]);
+  }, [loading, mapObject, setUser]);
 
   return (
     <ResultLayout>
@@ -83,6 +89,18 @@ function Result() {
 
           <FollowingSvg ref={svgRef}></FollowingSvg>
         </>
+      )}
+
+      {userData && (
+        <CardBox>
+          <Card
+            user={userData.login}
+            imgUrl={userData.avatar_url}
+            homeUrl={userData.html_url}
+            bio={userData.bio}
+            onCloseHandler={resetState}
+          />
+        </CardBox>
       )}
     </ResultLayout>
   );

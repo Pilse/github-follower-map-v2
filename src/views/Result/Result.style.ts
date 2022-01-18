@@ -6,6 +6,7 @@ export const ResultLayout = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: relative;
 `;
 
 export const InfoBox = styled.div`
@@ -51,6 +52,18 @@ export const ButtonBox = styled.div`
   width: min(133px, 40%);
 `;
 
+export const CardBox = styled.div`
+  position: absolute;
+  display: flex;
+  top: -15px;
+  flex-direction: column-reverse;
+  width: 100%;
+  height: calc(100% + 15px);
+  backdrop-filter: blur(10px);
+  background-color: ${({ theme }) => `${theme.Colors.Gray9}26`};
+  overflow-y: hidden;
+`;
+
 export const FollowingSvg = styled.svg`
   display: flex;
   width: 100%;
@@ -61,8 +74,19 @@ export const FollowingSvg = styled.svg`
   }
 
   image {
-    clip-path: circle(40%);
-    stroke: red;
+    clip-path: polygon(
+      34.54915% 2.44717%,
+      65.45085% 2.44717%,
+      90.45085% 20.61074%,
+      100% 50%,
+      90.45085% 79.38926%,
+      65.45085% 97.55283%,
+      34.54915% 97.55283%,
+      9.54915% 79.38926%,
+      0% 50%,
+      9.54915% 20.61074%
+    );
+    cursor: pointer;
   }
 `;
 

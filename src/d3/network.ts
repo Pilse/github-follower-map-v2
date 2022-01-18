@@ -75,7 +75,6 @@ class Network {
           .selectAll(".link")
           .data(_links)
           .join("line")
-          .attr("fill", "none")
           .attr("class", "link")
           .attr(
             "stroke-width",
@@ -90,16 +89,15 @@ class Network {
           .attr("y2", (link: any) => link.target.y!);
 
         this.svg
-          .selectAll<SVGImageElement, IuseFollowingNode>(".node")
+          .selectAll<SVGImageElement, IuseFollowingNode>("image")
           .data<IuseFollowingNode>(this.nodes)
           .join("image")
-          .attr("class", "node")
-          .attr("xlink:href", (node) => node.avatar)
+          .attr("href", (node) => node.avatar)
           .attr("x", (node) => node.x! - (radius + node.value - 20) / 2)
           .attr("y", (node) => node.y! - (radius + node.value - 20) / 2)
           .attr("width", (node) => radius + node.value - 20)
           .attr("height", (node) => radius + node.value - 20)
-          .on("click", (_, node) => onClickHandler(() => node));
+          .on("click", (_, node) => onClickHandler(() => node.name));
         // .call(this.draggable());
       });
   }

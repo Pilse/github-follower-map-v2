@@ -22,3 +22,11 @@ export interface IInput {
 export interface IHeader {
   show?: boolean;
 }
+
+export interface ICard {
+  imgUrl: string;
+  homeUrl: string;
+  user: string;
+  bio: string;
+  onCloseHandler(): void;
+}

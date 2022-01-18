@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #FFFFFF;
   }
 
-  img, object {
+  img {
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -32,7 +32,6 @@ const GlobalStyle = createGlobalStyle`
   svg {
     shape-rendering: geometricPrecision;
   }
-
 `;
 
 export default GlobalStyle;
