@@ -3,13 +3,7 @@ import React from "react";
 import { IIcon } from "../../types";
 
 function Icon({ name }: IIcon) {
-  return (
-    <object
-      type="image/svg+xml"
-      data={`/assets/images/${name}.svg`}
-      aria-label={name}
-    />
-  );
+  return <img src={`/assets/images/${name}.png`} alt={name} />;
 }
 
 export default Icon;

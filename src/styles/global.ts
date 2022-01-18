@@ -11,13 +11,16 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    background-color: white;
+    background-color: #EEEEEE;
     overflow-x: hidden;
   }
 
   #root {
-    width: min(450px, 100vw);
-    margin: 27px auto;
+    width: min(400px, 100vw);
+    height: 100vh;
+    padding: 16px 0;
+    margin: auto;
+    background-color: #FFFFFF;
   }
 
   img, object {

@@ -40,7 +40,7 @@ class Network {
     this.svg.attr("viewBox", [0, 0, this.width, this.height]);
   }
 
-  forceNetwork() {
+  forceNetwork(onClickHandler: Function) {
     const _links: any = this.links;
     const radius = 10 + (this.width * 500) / Math.pow(this.nodes.length, 3);
 
@@ -58,6 +58,19 @@ class Network {
       .force("charge", forceManyBody().strength(-10))
       .force("center", forceCenter(this.width / 2, this.height / 2))
       .on("tick", () => {
+        this.nodes.forEach((node) => {
+          node.x = this.validate(
+            node.x!,
+            radius + node.value,
+            this.width - (radius + node.value)
+          );
+          node.y = this.validate(
+            node.y!,
+            radius + node.value,
+            this.height - (radius + node.value)
+          );
+        });
+
         this.svg
           .selectAll(".link")
           .data(_links)
@@ -71,18 +84,10 @@ class Network {
                 Number(process.env.REACT_APP_VALUE_DECAY) +
               1
           )
-          .attr("x1", (link: any) =>
-            this.validate(link.source.x, 0, this.width - 20)
-          )
-          .attr("y1", (link: any) =>
-            this.validate(link.source.y!, 0, this.height - 20)
-          )
-          .attr("x2", (link: any) =>
-            this.validate(link.target.x!, 0, this.width - 20)
-          )
-          .attr("y2", (link: any) =>
-            this.validate(link.target.y!, 0, this.height - 20)
-          );
+          .attr("x1", (link: any) => link.source.x!)
+          .attr("y1", (link: any) => link.source.y!)
+          .attr("x2", (link: any) => link.target.x!)
+          .attr("y2", (link: any) => link.target.y!);
 
         this.svg
           .selectAll<SVGImageElement, IuseFollowingNode>(".node")
@@ -90,23 +95,12 @@ class Network {
           .join("image")
           .attr("class", "node")
           .attr("xlink:href", (node) => node.avatar)
-          .attr("x", (node) =>
-            this.validate(
-              node.x! - (radius + node.value - 20) / 2,
-              0,
-              this.width - 20
-            )
-          )
-          .attr("y", (node) =>
-            this.validate(
-              node.y! - (radius + node.value - 20) / 2,
-              0,
-              this.height - 20
-            )
-          )
+          .attr("x", (node) => node.x! - (radius + node.value - 20) / 2)
+          .attr("y", (node) => node.y! - (radius + node.value - 20) / 2)
           .attr("width", (node) => radius + node.value - 20)
           .attr("height", (node) => radius + node.value - 20)
-          .call(this.draggable());
+          .on("click", (_, node) => onClickHandler(() => node));
+        // .call(this.draggable());
       });
   }
 
@@ -119,8 +113,8 @@ class Network {
       >
     ) => {
       if (!event.active) this.simulation.alphaTarget(0.3).restart();
-      event.subject.fx = event.subject.x;
-      event.subject.fy = event.subject.y;
+      event.subject.fx = this.validate(event.subject.x!, 0, this.width - 20);
+      event.subject.fy = this.validate(event.subject.y!, 0, this.height - 20);
     };
 
     const dragged = (

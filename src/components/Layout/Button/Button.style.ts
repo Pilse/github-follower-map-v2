@@ -34,4 +34,5 @@ export const IconBox = styled.div`
 
 export const ButtonParagraph = styled.div`
   font-size: ${({ theme }) => theme.TextStyles.Paragraph2};
+  font-weight: 700;
 `;

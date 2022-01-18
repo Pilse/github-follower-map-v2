@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import useFollowing from "../../hooks/useFollowing";
 import D3Model from "../../d3/d3.index";
 
-import Header from "../../components/Header/Header";
 import Button from "../../components/Layout/Button/Button";
 
 import { ResultState } from "../types";
@@ -28,20 +27,19 @@ function Result() {
   const { mapObject, loading } = useFollowing(searchParams);
 
   const [path, setPath] = useState<ResultState>("following");
+  const [user, setUser] = useState<string>("");
 
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (!loading) {
       const network = new D3Model.Network(svgRef.current!, mapObject);
-      network.forceNetwork();
+      network.forceNetwork(setUser);
     }
   }, [loading, mapObject]);
 
   return (
     <ResultLayout>
-      <Header />
-
       {!loading && (
         <>
           <InfoBox>

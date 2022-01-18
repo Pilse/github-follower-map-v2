@@ -57,7 +57,7 @@ export const FollowingSvg = styled.svg`
   flex-direction: column;
 
   line {
-    stroke: ${({ theme }) => theme.Colors.Black + "26"};
+    stroke: ${({ theme }) => theme.Colors.Black + "33"};
   }
 
   image {
@@ -67,7 +67,8 @@ export const FollowingSvg = styled.svg`
 `;
 
 export const TextParagraph = styled.p`
-  ${({ theme }) => theme.TextStyles.Paragraph1};
+  ${({ theme }) => theme.TextStyles.Heading3};
+  color: ${({ theme }) => theme.Colors.Gray4};
 `;
 
 export const Line = styled.div`

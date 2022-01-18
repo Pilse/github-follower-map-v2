@@ -62,6 +62,10 @@ function useFollowing(location: string) {
           avatar: follower.avatar_url,
         }));
 
+        if (currentUserValue === minValue + valueDecay) {
+          followers.splice(15);
+        }
+
         const newFollowers = followers?.filter(
           (follower) => !isDuplicatedNode(follower.name, tempNodes)
         );
