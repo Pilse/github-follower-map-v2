@@ -1,7 +1,7 @@
 import React from "react";
 
-import Icon from "../Layout/Icon/Icon";
-import Button from "../Layout/Button/Button";
+import Icon from "../Icon/Icon";
+import Button from "../Button/Button";
 
 import { ICard } from "../types";
 import {

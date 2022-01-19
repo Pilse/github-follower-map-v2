@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 
 import Header from "../../components/Header/Header";
-import Input from "../../components/Layout/Input/Input";
-import Icon from "../../components/Layout/Icon/Icon";
+import Input from "../../components/Input/Input";
+import Icon from "../../components/Icon/Icon";
 
 import { SearchLayout, SearchForm, IconBox } from "./Search.style";
 import { IuseInput } from "../../hooks/types";

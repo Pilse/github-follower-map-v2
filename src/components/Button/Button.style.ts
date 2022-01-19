@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { IButton } from "../../types";
+import { IButton } from "../types";
 
 export const ButtonLayout = styled.button<IButton>`
   border: none;
@@ -35,6 +35,7 @@ export const IconBox = styled.div`
 
 export const ButtonParagraph = styled.div`
   ${({ theme }) => theme.TextStyles.Paragraph2};
-  color: ${({ theme }) => theme.Colors.Gray4};
+  color: ${({ theme }) => theme.Colors.Gray6};
+  font-weight: bold;
   word-break: keep-all;
 `;

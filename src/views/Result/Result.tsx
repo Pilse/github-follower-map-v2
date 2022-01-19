@@ -5,8 +5,9 @@ import useFollowing from "../../hooks/useFollowing";
 import useUser from "../../hooks/useUser";
 import D3Model from "../../d3/d3.index";
 
-import Button from "../../components/Layout/Button/Button";
+import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
+import Error from "../../components/Error/Error";
 
 import { ResultState } from "../types";
 
@@ -27,9 +28,9 @@ function Result() {
   const location = useLocation();
   const searchParams = location.search;
 
-  const { mapObject, loading } = useFollowing(searchParams);
+  const { mapObject, loading, error } = useFollowing(searchParams);
 
-  const { userData, setUser, resetState } = useUser();
+  const { userData, setUser, resetUser } = useUser();
 
   const [path, setPath] = useState<ResultState>("following");
 
@@ -37,16 +38,17 @@ function Result() {
 
   useEffect(() => {
     if (loading) {
-      setUser(() => "");
-    } else {
+      resetUser();
+    } else if (mapObject) {
       const network = new D3Model.Network(svgRef.current!, mapObject);
+
       network.forceNetwork(setUser);
     }
-  }, [loading, mapObject, setUser]);
+  }, [loading, mapObject, setUser, resetUser]);
 
   return (
     <ResultLayout>
-      {!loading && (
+      {!loading && !error && (
         <>
           <InfoBox>
             <UserBox>
@@ -98,9 +100,13 @@ function Result() {
             imgUrl={userData.avatar_url}
             homeUrl={userData.html_url}
             bio={userData.bio}
-            onCloseHandler={resetState}
+            onCloseHandler={resetUser}
           />
         </CardBox>
+      )}
+
+      {error && (
+        <Error error={error.error} message={error.message} user={error.user} />
       )}
     </ResultLayout>
   );

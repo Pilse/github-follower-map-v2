@@ -2,7 +2,7 @@ import React from "react";
 
 import Icon from "../Icon/Icon";
 
-import { IInput } from "../../types";
+import { IInput } from "../types";
 import { InputLayout, InputText, IconBox, InputBox } from "./Input.style";
 
 function Input({ onChangeHandler, onFocusHandler, onBlurHandler }: IInput) {

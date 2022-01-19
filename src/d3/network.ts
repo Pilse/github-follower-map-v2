@@ -42,7 +42,10 @@ class Network {
 
   forceNetwork(onClickHandler: Function) {
     const _links: any = this.links;
-    const radius = 10 + (this.width * 500) / Math.pow(this.nodes.length, 3);
+    const radius = Math.min(
+      10 + (this.width * 500) / Math.pow(this.nodes.length, 3),
+      40
+    );
 
     this.simulation = forceSimulation<IuseFollowingNode>(this.nodes)
       .force(

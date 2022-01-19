@@ -11,9 +11,10 @@ async function API<T>(
   };
 
   const res = await fetch(url, config);
+  const status = res.status;
   const data: T = await res.json();
 
-  return data;
+  return { data, status };
 }
 
 export default API;

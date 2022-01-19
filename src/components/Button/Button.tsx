@@ -2,7 +2,7 @@ import React from "react";
 
 import Icon from "../Icon/Icon";
 
-import { IButton } from "../../types";
+import { IButton } from "../types";
 import { ButtonLayout, IconBox, ButtonParagraph } from "./Button.style";
 
 function Button(props: IButton) {

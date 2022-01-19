@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 
 import Github from "../API/Github";
+import { ERROR, ERROR_MESSAGE } from "../utils/constant";
 
 import { IuseFollowingNode, IuseFollowinLink } from "./types";
+import { IError } from "../components/types";
 
 function useFollowing(location: string) {
   const [mapObject, setMapObject] = useState<{
@@ -11,6 +13,11 @@ function useFollowing(location: string) {
   }>({ nodes: [], links: [] });
 
   const [loading, setloading] = useState<boolean>(true);
+  const [error, setError] = useState<IError>();
+
+  useEffect(() => {
+    if (loading) setError(() => undefined);
+  }, [loading]);
 
   useEffect(() => {
     const target = new URLSearchParams(location).get("user")!.toLowerCase();
@@ -19,6 +26,16 @@ function useFollowing(location: string) {
       _nodes.some((node) => node.name.toLowerCase() === _user.toLowerCase());
 
     const isLevelLimit = (_level: number, _limit: number) => _level <= _limit;
+
+    const handleUserNotFoundError = (_user: string) => {
+      setError(() => ({
+        error: ERROR.USER_NOT_FOUND,
+        message: ERROR_MESSAGE.USER_NOT_FOUND,
+        user: _user,
+      }));
+
+      setloading(() => false);
+    };
 
     const initMapObject = async (_user: string) => {
       setloading(() => true);
@@ -31,9 +48,12 @@ function useFollowing(location: string) {
       const valueDecay = Number(process.env.REACT_APP_VALUE_DECAY);
       const maxNodes = Number(process.env.REACT_APP_MAX_NODES);
 
-      const targetInfo = await Github.fetchUser(_user);
+      const { data: targetInfo, status } = await Github.fetchUser(_user);
 
-      // TODO: 검색 대상 유저가 없을 경우 에러처리
+      if (status === 404) {
+        handleUserNotFoundError(_user);
+        return;
+      }
 
       tempNodes.push({
         name: _user,
@@ -55,14 +75,14 @@ function useFollowing(location: string) {
 
         if (isLevelLimit(currentUserValue, minValue)) continue;
 
-        const response = await Github.fetchFollowers(currentUserName);
+        const { data: response } = await Github.fetchFollowers(currentUserName);
 
         const followers = response?.map((follower) => ({
           name: follower.login,
           avatar: follower.avatar_url,
         }));
 
-        if (currentUserValue === minValue + valueDecay) {
+        if (isLevelLimit(currentUserValue, minValue + valueDecay)) {
           followers.splice(15);
         }
 
@@ -98,7 +118,7 @@ function useFollowing(location: string) {
     initMapObject(target);
   }, [location]);
 
-  return { mapObject, loading };
+  return { mapObject, loading, error };
 }
 
 export default useFollowing;

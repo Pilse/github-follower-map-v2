@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
-import Icon from "../../components/Layout/Icon/Icon";
+import Icon from "../../components/Icon/Icon";
 
 import {
   HomeLayout,

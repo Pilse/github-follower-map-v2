@@ -30,3 +30,9 @@ export interface ICard {
   bio: string;
   onCloseHandler(): void;
 }
+
+export interface IError {
+  error: string;
+  message: string;
+  user?: string;
+}

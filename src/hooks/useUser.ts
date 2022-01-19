@@ -7,26 +7,25 @@ function useUser() {
   const [user, setUser] = useState<string>("");
   const [userData, setUserData] = useState<IUserResponse>();
 
+  const resetUser = () => setUser(() => "");
+
+  const resetUserData = () => setUserData(() => undefined);
+
   useEffect(() => {
+    const fetchUser = async (_user: string) => {
+      const { data } = await Github.fetchUser(_user);
+
+      setUserData(() => data);
+    };
+
     if (user) {
-      const fetchUser = async (_user: string) => {
-        const data = await Github.fetchUser(_user);
-
-        setUserData(data);
-      };
-
       fetchUser(user);
     } else {
-      setUserData(() => undefined);
+      resetUserData();
     }
   }, [user]);
 
-  const resetState = () => {
-    setUser(() => "");
-    setUserData(() => undefined);
-  };
-
-  return { userData, setUser, resetState };
+  return { userData, setUser, resetUser };
 }
 
 export default useUser;

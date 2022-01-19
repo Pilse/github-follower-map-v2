@@ -1,6 +1,6 @@
 import React from "react";
 
-import Icon from "../Layout/Icon/Icon";
+import Icon from "../Icon/Icon";
 
 import { IHeader } from "../types";
 import {
