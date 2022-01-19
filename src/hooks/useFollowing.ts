@@ -83,7 +83,11 @@ function useFollowing(location: string) {
         }));
 
         if (isLevelLimit(currentUserValue, minValue + valueDecay)) {
-          followers.splice(15);
+          if (tempNodes.length > maxNodes / 2) {
+            followers.splice(11);
+          } else {
+            followers.splice(21);
+          }
         }
 
         const newFollowers = followers?.filter(

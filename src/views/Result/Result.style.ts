@@ -90,6 +90,8 @@ export const FollowingSvg = styled.svg`
   }
 `;
 
+export const GroupSvg = styled(FollowingSvg)``;
+
 export const TextParagraph = styled.p`
   ${({ theme }) => theme.TextStyles.Heading3};
   color: ${({ theme }) => theme.Colors.Gray4};

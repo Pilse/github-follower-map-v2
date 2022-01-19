@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { IUserResponse } from "../API/types";
 import Github from "../API/Github";
@@ -7,9 +7,9 @@ function useUser() {
   const [user, setUser] = useState<string>("");
   const [userData, setUserData] = useState<IUserResponse>();
 
-  const resetUser = () => setUser(() => "");
+  const resetUser = useCallback(() => setUser(() => ""), []);
 
-  const resetUserData = () => setUserData(() => undefined);
+  const resetUserData = useCallback(() => setUserData(() => undefined), []);
 
   useEffect(() => {
     const fetchUser = async (_user: string) => {
@@ -23,7 +23,7 @@ function useUser() {
     } else {
       resetUserData();
     }
-  }, [user]);
+  }, [user, resetUserData]);
 
   return { userData, setUser, resetUser };
 }

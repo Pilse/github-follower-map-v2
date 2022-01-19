@@ -4,9 +4,11 @@ import { useLocation } from "react-router-dom";
 import useFollowing from "../../hooks/useFollowing";
 import useUser from "../../hooks/useUser";
 import D3Model from "../../d3/d3.index";
+import findCoummunity from "./jLouvain";
 
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
+import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
 
 import { ResultState } from "../types";
@@ -20,6 +22,7 @@ import {
   ButtonBox,
   CardBox,
   FollowingSvg,
+  GroupSvg,
   TextParagraph,
   Line,
 } from "./Result.style";
@@ -32,23 +35,47 @@ function Result() {
 
   const { userData, setUser, resetUser } = useUser();
 
-  const [path, setPath] = useState<ResultState>("following");
+  const [option, setOption] = useState<ResultState>("following");
 
-  const svgRef = useRef<SVGSVGElement>(null);
+  const followingSvgRef = useRef<SVGSVGElement>(null);
+
+  const groupSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (loading) {
       resetUser();
     } else if (mapObject) {
-      const network = new D3Model.Network(svgRef.current!, mapObject);
+      if (option === "following") {
+        const network = new D3Model.Network(
+          followingSvgRef.current!,
+          mapObject
+        );
 
-      network.forceNetwork(setUser);
+        network.forceNetwork(setUser);
+      } else {
+        const communityMembers = findCoummunity(
+          mapObject.nodes[0].name,
+          mapObject.nodes,
+          mapObject.links
+        );
+
+        const bubble = new D3Model.Bubble(
+          groupSvgRef.current!,
+          communityMembers
+        );
+
+        bubble.forceBubble(setUser);
+      }
     }
-  }, [loading, mapObject, setUser, resetUser]);
+  }, [loading, mapObject, option, setUser, resetUser]);
 
   return (
     <ResultLayout>
-      {!loading && !error && (
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <Error error={error.error} message={error.message} user={error.user} />
+      ) : (
         <>
           <InfoBox>
             <UserBox>
@@ -65,31 +92,35 @@ function Result() {
             <Line />
 
             <OptionBox>
-              <ButtonBox onClick={() => setPath(() => "following")}>
+              <ButtonBox onClick={() => setOption(() => "following")}>
                 <Button
                   shape="angled"
                   size="sm"
                   text="팔로잉"
                   icon="follow"
                   vertical
-                  active={path === "following"}
+                  active={option === "following"}
                 />
               </ButtonBox>
 
-              <ButtonBox onClick={() => setPath(() => "grouping")}>
+              <ButtonBox onClick={() => setOption(() => "grouping")}>
                 <Button
                   shape="angled"
                   size="sm"
                   text="내가 속한 그룹"
                   icon="group"
                   vertical
-                  active={path === "grouping"}
+                  active={option === "grouping"}
                 />
               </ButtonBox>
             </OptionBox>
           </InfoBox>
 
-          <FollowingSvg ref={svgRef}></FollowingSvg>
+          {option === "following" ? (
+            <FollowingSvg ref={followingSvgRef}></FollowingSvg>
+          ) : (
+            <GroupSvg ref={groupSvgRef}></GroupSvg>
+          )}
         </>
       )}
 
@@ -103,10 +134,6 @@ function Result() {
             onCloseHandler={resetUser}
           />
         </CardBox>
-      )}
-
-      {error && (
-        <Error error={error.error} message={error.message} user={error.user} />
       )}
     </ResultLayout>
   );
