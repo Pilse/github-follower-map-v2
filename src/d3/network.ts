@@ -7,7 +7,7 @@ import {
   forceLink,
 } from "d3";
 
-import { IuseFollowingNode, IuseFollowinLink } from "../hooks/types";
+import { IuseFollowingNode, IuseFollowingLink } from "../hooks/types";
 
 class Network {
   private svg;
@@ -18,13 +18,13 @@ class Network {
 
   private width;
 
-  private height = 500;
+  private height = 600;
 
   constructor(
     svgElement: SVGSVGElement,
     mapObject: {
       nodes: IuseFollowingNode[];
-      links: IuseFollowinLink[];
+      links: IuseFollowingLink[];
     }
   ) {
     this.svg = select(svgElement);
@@ -39,22 +39,22 @@ class Network {
     const forceLinks: any = JSON.parse(JSON.stringify(this.links));
 
     const radius = Math.min(
-      10 + (this.width * 500) / Math.pow(this.nodes.length, 3),
+      10 + (this.width * 600) / Math.pow(this.nodes.length, 3),
       40
     );
 
     const _simulation = forceSimulation<IuseFollowingNode>(this.nodes)
       .force(
         "collide",
-        forceCollide((node) => radius + node.value - 30)
+        forceCollide((node) => radius + node.value - 27)
       )
       .force(
         "link",
-        forceLink<IuseFollowingNode, IuseFollowinLink>(forceLinks).id(
+        forceLink<IuseFollowingNode, IuseFollowingLink>(forceLinks).id(
           (node) => node.name
         )
       )
-      .force("charge", forceManyBody().strength(-10))
+      .force("charge", forceManyBody().strength(-1))
       .force("center", forceCenter(this.width / 2, this.height / 2))
       .on("tick", () => {
         this.nodes.forEach((node) => {

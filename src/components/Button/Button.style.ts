@@ -7,13 +7,19 @@ export const ButtonLayout = styled.button<IButton>`
   outline: none;
   display: flex;
   width: 100%;
-  height: fit-content;
   flex-direction: ${({ vertical }) => (vertical ? "column" : "row")};
+  justify-content: center;
   align-items: center;
   gap: 8px;
   cursor: pointer;
 
   background-color: ${({ theme }) => theme.Colors.White};
+
+  ${({ size }) =>
+    size === "sm" &&
+    css`
+      height: 80px;
+    `};
 
   ${({ shape, theme }) => theme.RoundStyles[shape]};
 

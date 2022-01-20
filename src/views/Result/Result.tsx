@@ -5,11 +5,13 @@ import useFollowing from "../../hooks/useFollowing";
 import useUser from "../../hooks/useUser";
 import D3Model from "../../d3/d3.index";
 import findCoummunity from "./jLouvain";
+import { NOTICE } from "../../utils/constant";
 
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
+import Icon from "../../components/Icon/Icon";
 
 import { ResultState } from "../types";
 
@@ -22,6 +24,9 @@ import {
   ButtonBox,
   CardBox,
   FollowingSvg,
+  GroupLabelBox,
+  IconBox,
+  GroupLabelText,
   GroupSvg,
   TextParagraph,
   Line,
@@ -107,7 +112,7 @@ function Result() {
                 <Button
                   shape="angled"
                   size="sm"
-                  text="내가 속한 그룹"
+                  text={`${mapObject.nodes[0].name} 그룹`}
                   icon="group"
                   vertical
                   active={option === "grouping"}
@@ -119,7 +124,17 @@ function Result() {
           {option === "following" ? (
             <FollowingSvg ref={followingSvgRef}></FollowingSvg>
           ) : (
-            <GroupSvg ref={groupSvgRef}></GroupSvg>
+            <>
+              <GroupLabelBox>
+                <IconBox>
+                  <Icon name="info" />
+                </IconBox>
+
+                <GroupLabelText>{NOTICE.HOW_TO_GROUPING}</GroupLabelText>
+              </GroupLabelBox>
+
+              <GroupSvg ref={groupSvgRef}></GroupSvg>
+            </>
           )}
         </>
       )}

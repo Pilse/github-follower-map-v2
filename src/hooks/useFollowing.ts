@@ -1,31 +1,30 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Github from "../API/Github";
 import { ERROR, ERROR_MESSAGE } from "../utils/constant";
 
-import { IuseFollowingNode, IuseFollowinLink } from "./types";
+import { IuseFollowingNode, IuseFollowingLink } from "./types";
 import { IError } from "../components/types";
 
 function useFollowing(location: string) {
   const [mapObject, setMapObject] = useState<{
     nodes: IuseFollowingNode[];
-    links: IuseFollowinLink[];
+    links: IuseFollowingLink[];
   }>({ nodes: [], links: [] });
 
   const [loading, setloading] = useState<boolean>(true);
   const [error, setError] = useState<IError>();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) setError(() => undefined);
   }, [loading]);
 
   useEffect(() => {
-    const target = new URLSearchParams(location).get("user")!.toLowerCase();
-
     const isDuplicatedNode = (_user: string, _nodes: IuseFollowingNode[]) =>
-      _nodes.some((node) => node.name.toLowerCase() === _user.toLowerCase());
-
-    const isLevelLimit = (_level: number, _limit: number) => _level <= _limit;
+      _nodes.some((node) => node.name === _user);
 
     const handleUserNotFoundError = (_user: string) => {
       setError(() => ({
@@ -37,16 +36,16 @@ function useFollowing(location: string) {
       setloading(() => false);
     };
 
+    const handlePageNotFoundError = () => navigate("/error");
+
     const initMapObject = async (_user: string) => {
       setloading(() => true);
 
       const tempNodes: IuseFollowingNode[] = [];
-      const tempLinks: IuseFollowinLink[] = [];
-      const queue: IuseFollowingNode[] = [];
+      const tempLinks: IuseFollowingLink[] = [];
       const maxValue = Number(process.env.REACT_APP_MAX_VALUE);
-      const minValue = Number(process.env.REACT_APP_MIN_VALUE);
+      const maxStep = Number(process.env.REACT_APP_MAX_STEP);
       const valueDecay = Number(process.env.REACT_APP_VALUE_DECAY);
-      const maxNodes = Number(process.env.REACT_APP_MAX_NODES);
 
       const { data: targetInfo, status } = await Github.fetchUser(_user);
 
@@ -56,71 +55,86 @@ function useFollowing(location: string) {
       }
 
       tempNodes.push({
-        name: _user,
-        avatar: targetInfo?.avatar_url,
+        name: targetInfo.login.toLowerCase(),
+        avatar: targetInfo.avatar_url,
         value: maxValue,
       });
 
-      queue.push({
-        name: _user,
-        avatar: targetInfo?.avatar_url,
-        value: maxValue,
-      });
+      const fetchFollowers = async (_users: string[], step: number) => {
+        const followers: string[] = [];
 
-      while (queue.length && tempNodes.length < maxNodes) {
-        const currentUser = queue.shift()!;
-
-        const currentUserName = currentUser?.name;
-        const currentUserValue = currentUser?.value;
-
-        if (isLevelLimit(currentUserValue, minValue)) continue;
-
-        const { data: response } = await Github.fetchFollowers(currentUserName);
-
-        const followers = response?.map((follower) => ({
-          name: follower.login,
-          avatar: follower.avatar_url,
-        }));
-
-        if (isLevelLimit(currentUserValue, minValue + valueDecay)) {
-          if (tempNodes.length > maxNodes / 2) {
-            followers.splice(11);
-          } else {
-            followers.splice(21);
-          }
-        }
-
-        const newFollowers = followers?.filter(
-          (follower) => !isDuplicatedNode(follower.name, tempNodes)
+        const responsesArray = await Promise.all(
+          _users.map((user) => Github.fetchFollowers(user))
         );
 
-        followers?.forEach((follower) => {
-          tempLinks.push({
-            source: currentUserName.toLowerCase(),
-            target: follower.name.toLowerCase(),
-          });
-        });
+        const usersArray = responsesArray.map((responses) =>
+          responses.data.map((response) => ({
+            name: response.login.toLowerCase(),
+            avatar: response.avatar_url,
+            value: maxValue - valueDecay * step,
+          }))
+        );
 
-        newFollowers?.forEach((follower) => {
-          tempNodes.push({
-            name: follower.name.toLowerCase(),
-            avatar: follower.avatar,
-            value: currentUserValue - valueDecay,
+        if (step === maxStep) {
+          usersArray.forEach((users, index) => {
+            const oldUsers = users.filter((user) =>
+              isDuplicatedNode(user.name, tempNodes)
+            );
+
+            oldUsers.forEach((user) => {
+              tempLinks.push({
+                source: _users[index],
+                target: user.name,
+              });
+            });
           });
-          queue.push({
-            name: follower.name.toLowerCase(),
-            avatar: follower.avatar,
-            value: currentUserValue - valueDecay,
+
+          return;
+        } else {
+          if (step === maxStep - 1) usersArray.splice(21);
+
+          usersArray.forEach((users, index) => {
+            const newUsers = users.filter(
+              (user) => !isDuplicatedNode(user.name, tempNodes)
+            );
+
+            newUsers.forEach((user) => {
+              followers.push(user.name);
+
+              tempNodes.push({
+                name: user.name,
+                avatar: user.avatar,
+                value: user.value,
+              });
+            });
+
+            users.forEach((user) => {
+              tempLinks.push({
+                source: _users[index],
+                target: user.name,
+              });
+            });
           });
-        });
-      }
+
+          await fetchFollowers(followers, step + 1);
+        }
+      };
+
+      await fetchFollowers([_user], 1);
 
       setMapObject(() => ({ nodes: tempNodes, links: tempLinks }));
+
       setloading(() => false);
     };
 
-    initMapObject(target);
-  }, [location]);
+    const userParameter = new URLSearchParams(location).get("user");
+
+    if (!userParameter) handlePageNotFoundError();
+
+    const targetUser = userParameter!.toLowerCase();
+
+    initMapObject(targetUser);
+  }, [location, navigate]);
 
   return { mapObject, loading, error };
 }

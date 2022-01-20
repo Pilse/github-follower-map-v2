@@ -9,27 +9,20 @@ const filterLinks = (_links) => {
   return _links.map((link) => ({
     source: link.source,
     target: link.target,
-    weight: 10,
+    weight:
+      link.source.value * isFollowedBack(link.source, link.target, _links)
+        ? 1
+        : 0.3,
   }));
 };
-
-const filterFollowedBack = (_links) =>
-  _links.filter((link) => isFollowedBack(link.source, link.target, _links));
 
 const findCommunity = (_target, _nodes, _links) => {
   const nodes = filterNodes(_nodes);
   const links = filterLinks(_links);
 
-  const followBackLinks = filterFollowedBack(links);
-
-  if (followBackLinks.length === 0) {
-    return [_nodes[0]];
-  }
-
-  const partition = jLouvain().nodes(nodes).edges(followBackLinks);
+  const partition = jLouvain().nodes(nodes).edges(links);
 
   const community = partition();
-  console.log(followBackLinks, community);
 
   const targetNumber = community[_target];
 

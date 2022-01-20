@@ -6,7 +6,7 @@ export const HeaderLayout = styled.div<IHeader>`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
+  width: min(400px, 100%);
   height: 65px;
 
   ${({ show }) =>

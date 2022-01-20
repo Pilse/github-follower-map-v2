@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import Icon from "../Icon/Icon";
 import Button from "../Button/Button";
@@ -16,7 +17,6 @@ import {
   UserText,
   UserBioText,
 } from "./Card.style";
-import { useNavigate } from "react-router-dom";
 
 function Card({ imgUrl, homeUrl, user, bio, onCloseHandler }: ICard) {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ function Card({ imgUrl, homeUrl, user, bio, onCloseHandler }: ICard) {
             <Button
               shape="rounded"
               size="lg"
-              text={`${user}가 어떤 그룹에 속하는지 알아보세요`}
+              text={`${user}의 그룹을 알아보세요`}
               icon="group"
               active
             />

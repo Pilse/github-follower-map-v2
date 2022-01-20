@@ -12,7 +12,7 @@ export interface IuseFollowingNode extends SimulationNodeDatum {
   value: number;
 }
 
-export interface IuseFollowinLink
+export interface IuseFollowingLink
   extends SimulationLinkDatum<IuseFollowingNode> {
   source: string;
   target: string;

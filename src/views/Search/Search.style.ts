@@ -11,7 +11,7 @@ export const SearchLayout = styled.div`
 export const SearchForm = styled.form`
   display: flex;
   align-items: center;
-  width: min(340px, 95%);
+  width: min(700px, 95%);
   height: 63px;
   gap: 5px;
 `;

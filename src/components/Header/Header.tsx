@@ -2,6 +2,8 @@ import React from "react";
 
 import Icon from "../Icon/Icon";
 
+import { HEADER } from "../../utils/constant";
+
 import { IHeader } from "../types";
 import {
   HeaderLayout,
@@ -19,8 +21,9 @@ function Header(show: IHeader) {
       </HeaderBox>
 
       <TitleBox>
-        <TitleHeading>GITHUB MAP</TitleHeading>
-        <TextParagraph>which group are you in?</TextParagraph>
+        <TitleHeading>{HEADER.TITLE}</TitleHeading>
+
+        <TextParagraph>{HEADER.SUBTITLE}</TextParagraph>
       </TitleBox>
 
       <HeaderBox>

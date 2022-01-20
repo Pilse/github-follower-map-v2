@@ -9,7 +9,7 @@ export const HomeLayout = styled.div`
 `;
 
 export const HeroBox = styled.div`
-  width: 85%;
+  width: min(350px, 85%);
 `;
 
 export const TextBox = styled.div`
@@ -20,7 +20,7 @@ export const TextBox = styled.div`
 `;
 
 export const ButtonBox = styled.div`
-  width: min(282px, 80vw);
+  width: min(350px, 80%);
 `;
 
 export const SmallParagraph = styled.p`

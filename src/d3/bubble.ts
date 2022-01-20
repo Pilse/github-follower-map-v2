@@ -15,7 +15,7 @@ class Bubble {
 
   private width;
 
-  private height = 500;
+  private height = 600;
 
   constructor(svgElement: SVGSVGElement, nodes: IuseFollowingNode[]) {
     this.svg = select(svgElement);
@@ -27,7 +27,7 @@ class Bubble {
 
   forceBubble(onClickHandler: Function) {
     const radius = Math.min(
-      10 + (this.width * 500) / Math.pow(this.nodes.length, 3),
+      10 + (this.width * 600) / Math.pow(this.nodes.length, 3),
       40
     );
 
@@ -36,7 +36,7 @@ class Bubble {
         "collide",
         forceCollide((node) => (radius + node.value - 20) / 2)
       )
-      .force("charge", forceManyBody().strength(150))
+      .force("charge", forceManyBody().strength(20))
       .force("center", forceCenter(this.width / 2, this.height / 2))
       .on("tick", () => {
         this.nodes.forEach((node) => {

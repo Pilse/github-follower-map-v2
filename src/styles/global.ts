@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #root {
-    width: min(400px, 100vw);
+    width: 100vw;
     height: 100vh;
     padding: 16px 0;
     margin: auto;
