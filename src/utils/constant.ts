@@ -9,7 +9,8 @@ export const ERROR_MESSAGE = {
 };
 
 export const NOTICE = {
-  HOW_TO_GROUPING: "그룹은 팔로잉 그래프를 기반으로 분석한 결과입니다",
+  HOW_TO_GROUPING:
+    "그룹은 팔로잉 그래프를 기반으로 분석한 나와 가까운 유저들입니다",
 };
 
 export const HOME = {

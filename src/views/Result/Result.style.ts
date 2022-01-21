@@ -68,6 +68,7 @@ export const GroupLabelBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 5px;
   gap: 8px;
 `;
 
@@ -113,6 +114,7 @@ export const TextParagraph = styled.p`
 export const GroupLabelText = styled.span`
   ${({ theme }) => theme.TextStyles.Paragraph3};
   color: ${({ theme }) => theme.Colors.GrayA};
+  word-break: keep-all;
 `;
 
 export const Line = styled.div`

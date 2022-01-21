@@ -5,20 +5,28 @@ const isFollowedBack = (_source, _target, _links) =>
 
 const filterNodes = (_nodes) => _nodes.map((node) => node.name);
 
-const filterLinks = (_links) => {
-  return _links.map((link) => ({
+const filterLinks = (_links) =>
+  _links.map((link) => ({
     source: link.source,
     target: link.target,
-    weight:
-      link.source.value * isFollowedBack(link.source, link.target, _links)
-        ? 1
-        : 0.3,
+    weight: isFollowedBack(link.source, link.target, _links) ? 2 : 1,
   }));
-};
+
+const filterDuplicatedLinks = (_links) =>
+  _links.filter((link, idx) =>
+    isFollowedBack(link.source, link.target, _links)
+      ? _links.findIndex(
+          (l) => l.source === link.target && l.target === link.source
+        ) < idx
+      : true
+  );
 
 const findCommunity = (_target, _nodes, _links) => {
   const nodes = filterNodes(_nodes);
-  const links = filterLinks(_links);
+  const duplicatedLinks = filterLinks(_links);
+  const links = filterDuplicatedLinks(duplicatedLinks);
+
+  console.log(_links);
 
   const partition = jLouvain().nodes(nodes).edges(links);
 
