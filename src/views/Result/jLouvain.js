@@ -26,11 +26,11 @@ const findCommunity = (_target, _nodes, _links) => {
   const duplicatedLinks = filterLinks(_links);
   const links = filterDuplicatedLinks(duplicatedLinks);
 
-  console.log(_links);
-
   const partition = jLouvain().nodes(nodes).edges(links);
 
   const community = partition();
+
+  if (!community) return [_nodes[0]];
 
   const targetNumber = community[_target];
 
